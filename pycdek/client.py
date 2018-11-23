@@ -104,18 +104,27 @@ class AbstractOrderLine(object):
 class Client(object):
     INTEGRATOR_URL = 'http://gw.edostavka.ru:11443'
     CALCULATOR_URL = 'http://api.cdek.ru/calculator/calculate_price_by_json.php'
-    CREATE_ORDER_URL = INTEGRATOR_URL + '/new_orders.php'
-    DELETE_ORDER_URL = INTEGRATOR_URL + '/delete_orders.php'
-    ORDER_STATUS_URL = INTEGRATOR_URL + '/status_report_h.php'
-    ORDER_INFO_URL = INTEGRATOR_URL + '/info_report.php'
-    ORDER_PRINT_URL = INTEGRATOR_URL + '/orders_print.php'
-    DELIVERY_POINTS_URL = INTEGRATOR_URL + '/pvzlist.php'
-    CALL_COURIER_URL = INTEGRATOR_URL + '/call_courier.php'
     array_tags = {'State', 'Delay', 'Good', 'Fail', 'Item', 'Package'}
+
+    @classmethod
+    def _init_urls(self, base_url):
+        self.INTEGRATOR_URL = base_url
+        self.CREATE_ORDER_URL = base_url + '/new_orders.php'
+        self.DELETE_ORDER_URL = base_url + '/delete_orders.php'
+        self.ORDER_STATUS_URL = base_url + '/status_report_h.php'
+        self.ORDER_INFO_URL = base_url + '/info_report.php'
+        self.ORDER_PRINT_URL = base_url + '/orders_print.php'
+        self.DELIVERY_POINTS_URL = base_url + '/pvzlist.php'
+        self.CALL_COURIER_URL = base_url + '/call_courier.php'
 
     def __init__(self, login, password):
         self._login = login
         self._password = password
+
+	# change base_url
+        if not base_url:
+            base_url = self.INTEGRATOR_URL
+        self._init_urls(base_url)
 
     @classmethod
     def _exec_request(cls, url, data, method='GET'):
