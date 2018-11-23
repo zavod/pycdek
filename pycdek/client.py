@@ -117,7 +117,7 @@ class Client(object):
         self.DELIVERY_POINTS_URL = base_url + '/pvzlist.php'
         self.CALL_COURIER_URL = base_url + '/call_courier.php'
 
-    def __init__(self, login, password):
+    def __init__(self, login, password, base_url=None):
         self._login = login
         self._password = password
 
